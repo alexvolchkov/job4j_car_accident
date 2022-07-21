@@ -43,6 +43,7 @@
                 <td>${accident.name}</td>
                 <td>${accident.text}</td>
                 <td>${accident.address}</td>
+                <td><a href="<c:url value="/edit?id=${accident.id}" />">Изменить инцидент</td>
             </tr>
         </c:forEach>
         </tbody>
