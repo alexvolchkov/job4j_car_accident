@@ -30,9 +30,10 @@
         <thead>
         <tr>
             <td>ID</td>
-            <td>name</td>
-            <td>text</td>
-            <td>address</td>
+            <td>Название</td>
+            <td>Текст</td>
+            <td>Адрес</td>
+            <td>Тип</td>
         </tr>
         </thead>
 
@@ -43,6 +44,7 @@
                 <td>${accident.name}</td>
                 <td>${accident.text}</td>
                 <td>${accident.address}</td>
+                <td>${accident.type.name}</td>
                 <td><a href="<c:url value="/edit?id=${accident.id}" />">Изменить инцидент</td>
             </tr>
         </c:forEach>
