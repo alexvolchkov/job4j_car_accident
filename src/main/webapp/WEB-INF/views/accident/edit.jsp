@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: user
-  Date: 21.07.2022
-  Time: 10:33
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -22,32 +15,27 @@
     <title>Accident</title>
 </head>
 <body>
-<form action="<c:url value='/create'/>" method='get'>
-    <input type="submit" value="Добавить инцидент">
-</form>
-
-    <table class="table">
-        <thead>
-        <tr>
-            <td>ID</td>
-            <td>name</td>
-            <td>text</td>
-            <td>address</td>
-        </tr>
-        </thead>
-
-        <tbody>
-        <c:forEach items="${accidents}" var="accident">
+    <form action="<c:url value='/update'/>" method='post'>
+        <table>
             <tr>
-                <td>${accident.id}</td>
-                <td>${accident.name}</td>
-                <td>${accident.text}</td>
-                <td>${accident.address}</td>
+                <td><input type='hidden' name='id' value="${accident.id}"></td>
             </tr>
-        </c:forEach>
-        </tbody>
-
-    </table>
-
+            <tr>
+                <td>Название:</td>
+                <td><input type='text' name='name' value="${accident.name}"></td>
+            </tr>
+            <tr>
+                <td>Текст:</td>
+                <td><input type='text' name='text' value="${accident.text}"></td>
+            </tr>
+            <tr>
+                <td>Адрес:</td>
+                <td><input type='text' name='address' value="${accident.address}"></td>
+            </tr>
+            <tr>
+                <td colspan='2'><input name="submit" type="submit" value="Сохранить" /></td>
+            </tr>
+        </table>
+    </form>
 </body>
 </html>
