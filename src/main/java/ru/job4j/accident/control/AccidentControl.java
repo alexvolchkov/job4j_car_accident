@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.service.AccidentService;
+import ru.job4j.accident.service.AccidentTypeService;
 import ru.job4j.accident.service.RuleService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,16 +17,18 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class AccidentControl {
     private final AccidentService service;
+    private final AccidentTypeService typeService;
     private final RuleService ruleService;
 
-    public AccidentControl(AccidentService service, RuleService ruleService) {
+    public AccidentControl(AccidentService service, AccidentTypeService typeService, RuleService ruleService) {
         this.service = service;
+        this.typeService = typeService;
         this.ruleService = ruleService;
     }
 
     @GetMapping("/create")
     public String create(Model model) {
-        model.addAttribute("types", service.findAllTypes());
+        model.addAttribute("types", typeService.findAll());
         model.addAttribute("rules", ruleService.findAll());
         return "accident/create";
     }
@@ -33,7 +36,7 @@ public class AccidentControl {
     @PostMapping("/save")
     public String save(@ModelAttribute Accident accident,
                        HttpServletRequest req) {
-        AccidentType type = service.findTypeById(accident.getType().getId()).get();
+        AccidentType type = typeService.findById(accident.getType().getId()).get();
         accident.setType(type);
         String[] ids = req.getParameterValues("rIds");
         for (String id : ids) {

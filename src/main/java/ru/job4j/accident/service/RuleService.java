@@ -2,16 +2,16 @@ package ru.job4j.accident.service;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Rule;
-import ru.job4j.accident.repository.RuleMem;
+import ru.job4j.accident.repository.RuleJdbcTemplate;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class RuleService {
-    private final RuleMem repository;
+    private final RuleJdbcTemplate repository;
 
-    public RuleService(RuleMem repository) {
+    public RuleService(RuleJdbcTemplate repository) {
         this.repository = repository;
     }
 

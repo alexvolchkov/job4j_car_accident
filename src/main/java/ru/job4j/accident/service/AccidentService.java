@@ -2,17 +2,16 @@ package ru.job4j.accident.service;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
-import ru.job4j.accident.model.AccidentType;
-import ru.job4j.accident.repository.AccidentMem;
+import ru.job4j.accident.repository.AccidentJdbcTemplate;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AccidentService {
-    private final AccidentMem repository;
+    private final AccidentJdbcTemplate repository;
 
-    public AccidentService(AccidentMem repository) {
+    public AccidentService(AccidentJdbcTemplate repository) {
         this.repository = repository;
     }
 
@@ -32,11 +31,4 @@ public class AccidentService {
         repository.update(accident);
     }
 
-    public List<AccidentType> findAllTypes() {
-        return repository.findAllTypes();
-    }
-
-    public Optional<AccidentType> findTypeById(int id) {
-        return repository.findTypeById(id);
-    }
 }
