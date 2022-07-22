@@ -7,16 +7,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class RuleMem {
     private final Map<Integer, Rule> rules = new HashMap<>();
-    private static int index = 0;
+    private final AtomicInteger id = new AtomicInteger();
 
     {
-        rules.put(1, Rule.of(1, "Статья. 1"));
-        rules.put(2, Rule.of(2, "Статья. 2"));
-        rules.put(3, Rule.of(3, "Статья. 3"));
+        int id1 = id.incrementAndGet();
+        rules.put(id1, Rule.of(id1, "Статья. 1"));
+        int id2 = id.incrementAndGet();
+        rules.put(id2, Rule.of(id2, "Статья. 2"));
+        int id3 = id.incrementAndGet();
+        rules.put(id3, Rule.of(id3, "Статья. 3"));
     }
 
     public List<Rule> findAll() {
