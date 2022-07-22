@@ -8,17 +8,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class AccidentMem {
     private final Map<Integer, Accident> accidents = new HashMap<>();
     private final Map<Integer, AccidentType> types = new HashMap<>();
-    private static int index = 0;
+    private final AtomicInteger id = new AtomicInteger();
 
     {
-        types.put(1, AccidentType.of(1, "Две машины"));
-        types.put(2, AccidentType.of(2, "Машина и человек"));
-        types.put(3, AccidentType.of(3, "Машина и велосипед"));
+        int id1 = id.incrementAndGet();
+        types.put(id1, AccidentType.of(id1, "Две машины"));
+        int id2 = id.incrementAndGet();
+        types.put(id2, AccidentType.of(id2, "Машина и человек"));
+        int id3 = id.incrementAndGet();
+        types.put(id3, AccidentType.of(id3, "Машина и велосипед"));
     }
 
     public List<Accident> findAll() {
@@ -26,7 +30,7 @@ public class AccidentMem {
     }
 
     public void create(Accident accident) {
-        int id = ++index;
+        int id = this.id.incrementAndGet();
         accident.setId(id);
         accidents.put(id, accident);
     }
