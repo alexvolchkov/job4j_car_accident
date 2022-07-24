@@ -1,7 +1,6 @@
 package ru.job4j.accident.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.Rule;
 
@@ -11,7 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public class AccidentJdbcTemplate {
     private final JdbcTemplate jdbc;
     private final AccidentTypeJdbcTemplate typeRepository;
