@@ -1,13 +1,11 @@
 package ru.job4j.accident.repository;
 
 import org.hibernate.SessionFactory;
-import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Rule;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public class RuleHibernate {
     private final SessionFactory sf;
 

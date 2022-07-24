@@ -8,64 +8,75 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
-import ru.job4j.accident.service.AccidentService;
-import ru.job4j.accident.service.AccidentTypeService;
-import ru.job4j.accident.service.RuleService;
+import ru.job4j.accident.model.Rule;
+import ru.job4j.accident.repository.AccidentRepository;
+import ru.job4j.accident.repository.AccidentTypeRepository;
+import ru.job4j.accident.repository.RuleRepository;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class AccidentControl {
-    private final AccidentService service;
-    private final AccidentTypeService typeService;
-    private final RuleService ruleService;
+    private final AccidentRepository accidents;
+    private final AccidentTypeRepository types;
+    private final RuleRepository rules;
 
-    public AccidentControl(AccidentService service, AccidentTypeService typeService, RuleService ruleService) {
-        this.service = service;
-        this.typeService = typeService;
-        this.ruleService = ruleService;
+    public AccidentControl(AccidentRepository accidents, AccidentTypeRepository types, RuleRepository rules) {
+        this.accidents = accidents;
+        this.types = types;
+        this.rules = rules;
     }
 
     @GetMapping("/create")
     public String create(Model model) {
-        model.addAttribute("types", typeService.findAll());
-        model.addAttribute("rules", ruleService.findAll());
+        List<AccidentType> resType = new ArrayList<>();
+        types.findAll().forEach(resType::add);
+        model.addAttribute("types", resType);
+        List<Rule> resRule = new ArrayList<>();
+        rules.findAll().forEach(resRule::add);
+        model.addAttribute("rules", resRule);
         return "accident/create";
     }
 
     @PostMapping("/save")
     public String save(@ModelAttribute Accident accident,
                        HttpServletRequest req) {
-        AccidentType type = typeService.findById(accident.getType().getId()).get();
+        AccidentType type = types.findById(accident.getType().getId()).get();
         accident.setType(type);
         String[] ids = req.getParameterValues("rIds");
         if (ids != null) {
             for (String id : ids) {
-                accident.addRule(ruleService.findById(Integer.parseInt(id)).get());
+                accident.addRule(rules.findById(Integer.parseInt(id)).get());
             }
         }
-        service.create(accident);
+        accidents.save(accident);
         return "redirect:/";
     }
 
     @GetMapping("/edit")
     public String edit(@RequestParam("id") int id, Model model) {
-        model.addAttribute("types", typeService.findAll());
-        model.addAttribute("rules", ruleService.findAll());
-        model.addAttribute("accident", service.findById(id).get());
+        List<AccidentType> resType = new ArrayList<>();
+        types.findAll().forEach(resType::add);
+        model.addAttribute("types", resType);
+        List<Rule> resRule = new ArrayList<>();
+        rules.findAll().forEach(resRule::add);
+        model.addAttribute("rules", resRule);
+        model.addAttribute("accident", accidents.findById(id).get());
         return "accident/edit";
     }
 
     @PostMapping("/update")
     public String update(@ModelAttribute Accident accident,
                          HttpServletRequest req) {
-        AccidentType type = typeService.findById(accident.getType().getId()).get();
+        AccidentType type = types.findById(accident.getType().getId()).get();
         accident.setType(type);
         String[] ids = req.getParameterValues("rIds");
         for (String id : ids) {
-            accident.addRule(ruleService.findById(Integer.parseInt(id)).get());
+            accident.addRule(rules.findById(Integer.parseInt(id)).get());
         }
-        service.update(accident);
+        accidents.save(accident);
         return "redirect:/";
     }
 }
