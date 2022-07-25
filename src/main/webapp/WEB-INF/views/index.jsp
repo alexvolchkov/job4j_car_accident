@@ -22,6 +22,11 @@
     <title>Accident</title>
 </head>
 <body>
+
+<div>
+    Login as : ${user.username}
+</div>
+
 <form action="<c:url value='/create'/>" method='get'>
     <input type="submit" value="Добавить инцидент">
 </form>
